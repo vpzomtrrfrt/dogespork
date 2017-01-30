@@ -13,6 +13,7 @@ statement = ws statement:(
 	"rly" condition:expression "\n" body:start ws "wow" { return "if("+condition+"){"+body+"}"; } /
 	"but rly" condition:expression "\n" body:start ws "wow" { return "else if("+condition+"){"+body+"}"; } /
 	"but" wsn body:start ws "wow" { return "else{"+body+"}"; } /
+	"many" condition:expression "\n" body:start ws "wow" { return "while("+condition+"){"+body+"}"; } /
 	x: (
 		"shh" [^\n]* { return ""; } /
 		"very" ws name:identifier ws "is" ws value:expression { return "var "+name+"="+value; } / 
@@ -21,11 +22,16 @@ statement = ws statement:(
 	) { return x+";";}
 ) { return statement; }
 
+string = "'" chars: char* "'" { return "'" + chars.join("") + "'"; }
+
 expression = (
 	ws x:(
-		"'" chars: char* "'" { return "'" + chars.join("") + "'"; } /
+		string /
 		digits:digit+ { return parseInt(digits.join(""),8).toString(10); } /
+		object /
+		array /
 		"plz" ws ref:ref ws "with" ws params:params { return ref+"("+params+")"; } /
+		"plz" ws ref:ref ws params:params { return ref+"()"; } /
 		ref1:ref ws "dose" ws ref2:identifier ws "with" ws params:params { return checkVar(ref1+"."+ref2)+"("+params+")"; } /
 		"much" ws params:(key:identifier ws { return key; }) * "\n" ws body:start ws "wow" { return "function("+params.join(",")+"){"+body+"}" } /
 		ref /
@@ -40,7 +46,8 @@ operation1 = (
 		"is not" { return "!=="; } /
 		"is" { return "==="; } /
 		"and" { return "&&"; } /
-		"plus" { return "+"; }
+		"plus" { return "+"; } /
+		"or" { return "||"; }
 	) exp:expression {return operator + exp;}
 )
 
@@ -84,4 +91,23 @@ right_modifier = (
 	"--" /
 	"." ref:identifier { return "."+ref; } /
 	"[" ref:expression "]" { return "["+ref+"]"; }
+)
+
+// DSON-like objects
+object = "such" wsn members:members wsn "wow" { return "{"+members+"}"; }
+
+members = (
+	pair:pair wsn [,.!?] wsn remain:members { return pair+remain; } /
+	pair /
+	""
+)
+
+pair = key:string wsn "is" wsn value:expression { return key+":"+value; }
+
+array = "so" wsn elements:elements wsn "wow" { return "["+elements+"]"; }
+
+elements = (
+	expression /
+	value:expression wsn "also" wsn remain:elements { return value+","+remain; } /
+	""
 )

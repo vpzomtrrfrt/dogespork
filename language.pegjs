@@ -79,7 +79,8 @@ varstart = [A-Za-vx-z_$Ɖ]
 
 varcont = (
 	varstart /
-	[0-9]
+	[0-9] /
+	"w"
 )
 
 digit = [0-7]

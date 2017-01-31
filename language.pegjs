@@ -49,7 +49,9 @@ operation1 = (
 		"is" { return "==="; } /
 		"and" { return "&&"; } /
 		"plus" { return "+"; } /
-		"or" { return "||"; }
+		"or" { return "||"; } /
+		"bigger" { return ">"; } /
+		"smaller" { return "<"; }
 	) exp:expression {return operator + exp;}
 )
 

@@ -14,8 +14,8 @@ statement = ws statement:(
 	"but rly" condition:expression "\n" body:start ws "wow" { return "else if("+condition+"){"+body+"}"; } /
 	"but" wsn body:start ws "wow" { return "else{"+body+"}"; } /
 	"many" condition:expression "\n" body:start ws "wow" { return "while("+condition+"){"+body+"}"; } /
+	"shh" [^\n]* { return ""; } /
 	x: (
-		"shh" [^\n]* { return ""; } /
 		"very" ws name:identifier ws "is" ws value:expression { return "var "+name+"="+value; } / 
 		name:ref ws "is" ws value:expression { return name+"="+value; } /
 		expression
@@ -30,6 +30,8 @@ expression = (
 		digits:digit+ { return parseInt(digits.join(""),8).toString(10); } /
 		object /
 		array /
+		"yes" { return "true"; } /
+		"no" { return "false"; } /
 		"plz" ws ref:ref ws "with" ws params:params { return ref+"("+params+")"; } /
 		"plz" ws ref:ref ws params:params { return ref+"()"; } /
 		ref1:ref ws "dose" ws ref2:identifier ws "with" ws params:params { return checkVar(ref1+"."+ref2)+"("+params+")"; } /
@@ -97,7 +99,7 @@ right_modifier = (
 object = "such" wsn members:members wsn "wow" { return "{"+members+"}"; }
 
 members = (
-	pair:pair wsn [,.!?] wsn remain:members { return pair+remain; } /
+	pair:pair wsn [,.!?] wsn remain:members { return pair+","+remain; } /
 	pair /
 	""
 )
@@ -106,8 +108,4 @@ pair = key:string wsn "is" wsn value:expression { return key+":"+value; }
 
 array = "so" wsn elements:elements wsn "wow" { return "["+elements+"]"; }
 
-elements = (
-	expression /
-	value:expression wsn "also" wsn remain:elements { return value+","+remain; } /
-	""
-)
+elements = elems:expression * { return elems.join(","); }

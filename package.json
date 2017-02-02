@@ -1,13 +1,12 @@
 {
   "name": "dogespork",
   "version": "1.0.0",
-  "description": "A recreation of Dogescript with probably better parsing",
+  "description": "A compile-to-JS language loosely based on Dogescript with probably better parsing",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "dogescript"
   ],
   "author": "VpzomTrrfrt",
   "license": "MIT",

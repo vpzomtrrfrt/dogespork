@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prepare": "node_modules/.bin/pegjs language.pegjs",
-    "test": "node test/test.js"
+    "run-tests": "node test/test.js",
+    "test": "nyc npm run-tests && nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [],
   "author": "VpzomTrrfrt",

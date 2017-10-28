@@ -32,3 +32,11 @@ files.forEach(function(filename) {
 		t.equal(actual, expected, description);
 	});
 });
+
+// test syntax errors
+test("syntax error reporting", function(t) {
+	t.plan(1);
+
+	let error;
+	t.throws(() => dogespork("very walrus is 5"), /"w" found/, "variables can't start with w");
+});

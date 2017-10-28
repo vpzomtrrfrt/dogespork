@@ -4,10 +4,9 @@
   "description": "A compile-to-JS language loosely based on Dogescript with probably better parsing",
   "main": "index.js",
   "scripts": {
-	  "prepublish": "node_modules/.bin/pegjs language.pegjs"
+    "prepare": "node_modules/.bin/pegjs language.pegjs"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "VpzomTrrfrt",
   "license": "MIT",
   "devDependencies": {

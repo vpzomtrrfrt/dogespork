@@ -1,0 +1,1 @@
+var bark = function(msg) {};

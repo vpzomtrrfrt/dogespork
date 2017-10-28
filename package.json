@@ -1,6 +1,6 @@
 {
   "name": "dogespork",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A compile-to-JS language loosely based on Dogescript with probably better parsing",
   "main": "index.js",
   "scripts": {

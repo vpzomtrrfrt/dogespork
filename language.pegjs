@@ -13,6 +13,7 @@ statement = ws statement:(
 	"rly" condition:expression "\n" body:start ws "wow" { return "if("+condition+"){"+body+"}"; } /
 	"but rly" condition:expression "\n" body:start ws "wow" { return "else if("+condition+"){"+body+"}"; } /
 	"but" wsn body:start ws "wow" { return "else{"+body+"}"; } /
+	"return" wsn exp:expression { return "return "+exp+";"; } /
 	"many" condition:expression "\n" body:start ws "wow" { return "while("+condition+"){"+body+"}"; } /
 	"shh" [^\n]* { return ""; } /
 	x: (

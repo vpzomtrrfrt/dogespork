@@ -1,6 +1,6 @@
 {
   "name": "dogespork",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A compile-to-JS language loosely based on Dogescript with probably better parsing",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "author": "VpzomTrrfrt",
   "license": "MIT",
   "devDependencies": {
+    "js-beautify": "^1.7.4",
     "pegjs": "^0.10.0"
   }
 }

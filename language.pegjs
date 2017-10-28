@@ -7,14 +7,16 @@
 	}
 }
 
-start = statements: (statement:(statement) [ \t]* ("shh" [^\n]*) ? ("\n" * / "   " * / !.) { return statement; }) * { return statements.join(""); }
+start = statements: (statement:(statement) [ \t]* ("shh" [^\n]*) ? (end+ / !.) { return statement; }) * { return statements.join(""); }
+
+end = "\n" / "   " / ("~" wsc)
 
 statement = ws statement:(
-	"rly" condition:expression "\n" body:start ws "wow" { return "if("+condition+"){"+body+"}"; } /
-	"but rly" condition:expression "\n" body:start ws "wow" { return "else if("+condition+"){"+body+"}"; } /
+	"rly" condition:expression end body:start ws "wow" { return "if("+condition+"){"+body+"}"; } /
+	"but rly" condition:expression end body:start ws "wow" { return "else if("+condition+"){"+body+"}"; } /
 	"but" wsn body:start ws "wow" { return "else{"+body+"}"; } /
 	"return" wsn exp:expression { return "return "+exp+";"; } /
-	"many" condition:expression "\n" body:start ws "wow" { return "while("+condition+"){"+body+"}"; } /
+	"many" condition:expression end body:start ws "wow" { return "while("+condition+"){"+body+"}"; } /
 	"shh" [^\n]* { return ""; } /
 	x: (
 		"very" ws name:identifier ws "is" ws value:expression { return "var "+name+"="+value; } / 
@@ -37,7 +39,7 @@ expression = (
 		"plz" ws ref:ref ws params:params { return ref+"()"; } /
 		ref1:ref ws "dose" ws ref2:identifier ws "with" ws params:params { return checkVar(ref1+"."+ref2)+"("+params+")"; } /
 		ref1:ref ws "dose" ws ref2:identifier { return checkVar(ref1+"."+ref2)+"()"; } /
-		"much" ws params:(key:identifier ws { return key; }) * "\n" ws body:start ws "wow" { return "function("+params.join(",")+"){"+body+"}" } /
+		"much" ws params:(key:identifier ws { return key; }) * end ws body:start ws "wow" { return "function("+params.join(",")+"){"+body+"}" } /
 		ref /
 		"(" x:expression ")" { return "("+x+")";}
 	) ops:(operation1 *) ws { return x+ops.join(""); }

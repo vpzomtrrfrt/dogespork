@@ -36,6 +36,7 @@ expression = (
 		"plz" ws ref:ref ws "with" ws params:params { return ref+"("+params+")"; } /
 		"plz" ws ref:ref ws params:params { return ref+"()"; } /
 		ref1:ref ws "dose" ws ref2:identifier ws "with" ws params:params { return checkVar(ref1+"."+ref2)+"("+params+")"; } /
+		ref1:ref ws "dose" ws ref2:identifier { return checkVar(ref1+"."+ref2)+"()"; } /
 		"much" ws params:(key:identifier ws { return key; }) * "\n" ws body:start ws "wow" { return "function("+params.join(",")+"){"+body+"}" } /
 		ref /
 		"(" x:expression ")" { return "("+x+")";}

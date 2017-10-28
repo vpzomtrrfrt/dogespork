@@ -1,1 +1,1 @@
-var dog=1;
+var dog = 1;

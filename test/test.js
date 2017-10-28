@@ -3,6 +3,7 @@ const dogespork = require('..');
 const test = require('tape');
 const glob = require('glob');
 const path = require('path');
+const beautify = require('js-beautify');
 
 const srcDir = path.join(__dirname, 'spec');
 
@@ -26,7 +27,7 @@ files.forEach(function(filename) {
 
 		const expected = fs.readFileSync(path.join(dirname, 'expect.js'), 'utf8').trim();
 
-		const actual = dogespork(source);
+		const actual = beautify(dogespork(source));
 
 		t.equal(actual, expected, description);
 	});
